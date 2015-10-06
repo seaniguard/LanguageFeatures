@@ -165,5 +165,16 @@ namespace LanguageFeatures.Controllers
 
 			return PartialView("ProductDetails",model);
 		}
-	}
+
+		[HttpPost]
+		public void ExportToExcel()
+		{
+			string s = "Hello World!";
+
+			System.IO.StreamWriter file = new System.IO.StreamWriter("c:\\test.txt", true);
+			file.WriteLine(s);
+
+			file.Close();
+		}
+    }
 }

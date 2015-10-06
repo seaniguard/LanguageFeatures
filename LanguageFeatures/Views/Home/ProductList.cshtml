@@ -172,7 +172,9 @@
 		</table>
 		<br />
 		<span id="numOfProducts" style="font-weight:bold;">Total Number of Products: @Model.numOfProducts</span>
-
+		<p>
+			<input type="button" value="export to excel" onclick="return OnExportToExcelClick();" />
+		</p>
 
 	</div>
 </form>
@@ -185,6 +187,15 @@
 	var currentPrice;
 	var currentRowForDetails;
 	var currentProductIDForDetails;
+	function OnExportToExcelClick() {
+		$.ajax({
+			url: "/Home/ExportToExcel",
+			method: "POST",
+			complete: function () { },
+			success: function () { }
+		})
+	}
+
 	function onCrossClick() {
 		currentRow.find('td:nth-child(2)').html(currentProductID);
 		currentRow.find('td:nth-child(3)').html(currentName);
