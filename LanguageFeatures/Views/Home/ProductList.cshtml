@@ -1,183 +1,182 @@
 ﻿@model LanguageFeatures.Models.ShoppingCartModels
-
 @{
 	ViewBag.Title = "Result";
 	string[] a = "all;a;b;c;d;e;f;g;h;i;j;k;l;m;n;o;p;q;r;s;t;u;v;w;x;y;z;0;1;2;3;4;5;6;7;8;9".Split(';');
 }
-
 <title>Result</title>
+<script src="/Scripts/jquery.fileDownload.js"></script>
 @*<br />*@
 <h2>Product List:</h2>
-<form id="formProductList">
-	<div style="float: left;">
-		Last Name Beginning with&nbsp;
-		<select id="newBeginWith" name="newBeginWith">
-			@foreach (string aa in a)
+<form class="formProductList" id="formProductList" action='@Url.Action("ExportToExcel")'>
+	<d>
+		<div style="float: left;">
+			Last Name Beginning with&nbsp;
+			<select id="newBeginWith" name="newBeginWith">
+				@foreach (string aa in a)
 			{
-				<option value="@aa" @(Model.currentBeginWith == aa ? "selected" : "")>@aa</option>
+					<option value="@aa" @(Model.currentBeginWith == aa ? "selected" : "")>@aa</option>
 			}
-		</select>
-		<input id="btnOrder" type="submit" name="btnOrder" value="Submit" />&nbsp;
-		<img id="productListSpinner" src="~/Content/images/spinner.gif" style="display: none;" />
-	</div>
-	<div style="float: right;">
-		<input id="currentSortBy" type="hidden" name="currentSortBy" value="@Model.currentSortBy" />
-		<input id="currentSortOrder" type="hidden" name="currentSortOrder" value="@Model.currentSortOrder" />
-		<input id="currentBeginWith" type="hidden" name="currentBeginWith" value="@Model.currentBeginWith" />
-		<input id="currentPageSize" type="hidden" name="currentPageSize" value="@Model.currentPageSize" />
-		<input id="newSortBy" type="hidden" name="newSortBy" value="@Model.currentSortBy" />
-		<input id="newSortOrder" type="hidden" name="newSortOrder" value="@Model.currentSortOrder" />
-		Page:&nbsp;
-		<select id="newPage" name="newPage">
-			@for (int i = 1; i <= Model.numOfPages; i++)
-			{
-				<option value=@i @(Model.currentPage == i ? "selected" : "")>@i</option>
-			}
-		</select>
-		&nbsp;Page Size:&nbsp;
-		<select id="newPageSize" name="newPageSize">
-			<option value=10 @(Model.currentPageSize == 10 ? "selected" : "")>10</option>
-			<option value=25 @(Model.currentPageSize == 25 ? "selected" : "")>25</option>
-			<option value=50 @(Model.currentPageSize == 50 ? "selected" : "")>50</option>
-			<option value=100 @(Model.currentPageSize == 100 ? "selected" : "")>100</option>
-		</select>
-	</div>
-	<br /><br />
-	<div id="divProductListTable">
-		<style type="text/css">
-			#myTable { table-layout: fixed; }
-				#myTable thead tr:first-child { background-color: #6B696B; color: white; border-right: 1px solid white; }
-				#myTable thead tr td:first-child { border-left: 0; width: 15px; text-align: right; padding-right: 10px; }
-				#myTable thead tr td { font-weight: bold; padding-left: 5px; }
-				#myTable thead a { color: white; font-weight: bold; text-decoration: underline; }
-				#myTable tbody tr td { border-left: 1px solid #808080; padding-left: 5px; }
-				#myTable tbody tr:first-child td { padding-top: 7px; }
-				#myTable tbody tr td:first-child { text-align: right; padding-right: 10px; }
-				#myTable tbody tr:nth-child(odd) { background-color: lightyellow; }
-				#myTable td { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 2px; }
-				#myTable tr td:nth-last-child(2) { text-align: right; padding-right: 10px; }
-				#myTable td { border-left: 1px solid #c0c0c0; padding-left: 10px; }
-				#myTable tr td:first-child { border-left: 0px; }
-				#myTable #totalPrice td { border-left: 0px; }
-				#myTable .tdBorderTop { border-top: 2px solid black; }
-				#myTable tbody td a { text-decoration: none; cursor: pointer; }
-				#myTable tbody tr td div { min-height: 100px; background-color: white; text-align: left; border: 2px solid black; }
-					#myTable tbody tr td div tr td { background-color: white; border-left: none; }
-						#myTable tbody tr td div tr td:first-child { text-align: left; }
-			/*#myTable thead tr th { text-decoration: underline; cursor: pointer; }*/
-		</style>
-		<div id="formInsertRecord">
-			ID:&nbsp;
-			<input type="text" class="addRecordInputs" name="ProductID" id="ProductID" style="width:30px; text-transform: uppercase;" />&nbsp;
-			Name:&nbsp;
-			<input type="text" class="addRecordInputs" name="Name" id="Name" style="width:100px;" />
-			Description:&nbsp;
-			<input type="text" class="addRecordInputs" name="Description" id="Description" style="width:400px;" />
-			Category:&nbsp;
-			<select id="Category" class="addRecordInputs" name="Category">
-				<option value="Home">Home</option>
-				<option value="OutDoor">OutDoor</option>
-				<option value="Computer">Computer</option>
-				<option value="phone">phone</option>
-				<option value="Camera">Camera</option>
-				<option value="TV">TV</option>
-				<option value="Office">Office</option>
-				<option value="wine">wine</option>
-				<option value="car">car</option>
 			</select>
-			Price:&nbsp;
-			<input type="text" class="addRecordInputs" name="Price" id="Price" style="width:50px;" @*onkeypress="isValidPriceKey(event)"*@ />
-			<input id="btnInsertRecord" type="submit" name="btnInsertRecord" value="Add" />
-			&nbsp;
-			<img id="insertProductSpinner" src="~/Content/images/spinner.gif" style="display: none;" />
-			<span id="insertProductAckMsg" style="font-weight: bold; color: red;">@Model.insertRecordAckMsg</span>
+			<input id="btnOrder" type="submit" name="btnOrder" value="Submit" />&nbsp;
+			<img id="productListSpinner" src="~/Content/images/spinner.gif" style="display: none;" />
 		</div>
-		<br />
-		<table id="myTable" style="width: 100%;">
-			<thead>
-				<tr>
-					@*set up and down image (150918)*@
-					<td style="width:50px;">#</td>
-					<td style="width:60px;">
-						<a href="" id="productID">ID</a>
-						@if (Model.currentSortBy == "productID")
+		<div style="float: right;">
+			<input id="currentSortBy" type="hidden" name="currentSortBy" value="@Model.currentSortBy" />
+			<input id="currentSortOrder" type="hidden" name="currentSortOrder" value="@Model.currentSortOrder" />
+			<input id="currentBeginWith" type="hidden" name="currentBeginWith" value="@Model.currentBeginWith" />
+			<input id="currentPageSize" type="hidden" name="currentPageSize" value="@Model.currentPageSize" />
+			<input id="newSortBy" type="hidden" name="newSortBy" value="@Model.currentSortBy" />
+			<input id="newSortOrder" type="hidden" name="newSortOrder" value="@Model.currentSortOrder" />
+			Page:&nbsp;
+			<select id="newPage" name="newPage">
+				@for (int i = 1; i <= Model.numOfPages; i++)
+			{
+					<option value=@i @(Model.currentPage == i ? "selected" : "")>@i</option>
+			}
+			</select>
+			&nbsp;Page Size:&nbsp;
+			<select id="newPageSize" name="newPageSize">
+				<option value=10 @(Model.currentPageSize == 10 ? "selected" : "")>10</option>
+				<option value=25 @(Model.currentPageSize == 25 ? "selected" : "")>25</option>
+				<option value=50 @(Model.currentPageSize == 50 ? "selected" : "")>50</option>
+				<option value=100 @(Model.currentPageSize == 100 ? "selected" : "")>100</option>
+			</select>
+		</div>
+		<br /><br />
+		<div id="divProductListTable">
+			<style type="text/css">
+				#myTable { table-layout: fixed; }
+					#myTable thead tr:first-child { background-color: #6B696B; color: white; border-right: 1px solid white; }
+					#myTable thead tr td:first-child { border-left: 0; width: 15px; text-align: right; padding-right: 10px; }
+					#myTable thead tr td { font-weight: bold; padding-left: 5px; }
+					#myTable thead a { color: white; font-weight: bold; text-decoration: underline; }
+					#myTable tbody tr td { border-left: 1px solid #808080; padding-left: 5px; }
+					#myTable tbody tr:first-child td { padding-top: 7px; }
+					#myTable tbody tr td:first-child { text-align: right; padding-right: 10px; }
+					#myTable tbody tr:nth-child(odd) { background-color: lightyellow; }
+					#myTable td { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 2px; }
+					#myTable tr td:nth-last-child(2) { text-align: right; padding-right: 10px; }
+					#myTable td { border-left: 1px solid #c0c0c0; padding-left: 10px; }
+					#myTable tr td:first-child { border-left: 0px; }
+					#myTable #totalPrice td { border-left: 0px; }
+					#myTable .tdBorderTop { border-top: 2px solid black; }
+					#myTable tbody td a { text-decoration: none; cursor: pointer; }
+					#myTable tbody tr td div { min-height: 100px; background-color: white; text-align: left; border: 2px solid black; }
+						#myTable tbody tr td div tr td { background-color: white; border-left: none; }
+							#myTable tbody tr td div tr td:first-child { text-align: left; }
+				/*#myTable thead tr th { text-decoration: underline; cursor: pointer; }*/
+			</style>
+			<div id="formInsertRecord">
+				ID:&nbsp;
+				<input type="text" class="addRecordInputs" name="ProductID" id="ProductID" style="width:30px; text-transform: uppercase;" />&nbsp;
+				Name:&nbsp;
+				<input type="text" class="addRecordInputs" name="Name" id="Name" style="width:100px;" />
+				Description:&nbsp;
+				<input type="text" class="addRecordInputs" name="Description" id="Description" style="width:400px;" />
+				Category:&nbsp;
+				<select id="Category" class="addRecordInputs" name="Category">
+					<option value="Home">Home</option>
+					<option value="OutDoor">OutDoor</option>
+					<option value="Computer">Computer</option>
+					<option value="phone">phone</option>
+					<option value="Camera">Camera</option>
+					<option value="TV">TV</option>
+					<option value="Office">Office</option>
+					<option value="wine">wine</option>
+					<option value="car">car</option>
+				</select>
+				Price:&nbsp;
+				<input type="text" class="addRecordInputs" name="Price" id="Price" style="width:50px;" @*onkeypress="isValidPriceKey(event)"*@ />
+				<input id="btnInsertRecord" type="submit" name="btnInsertRecord" value="Add" />
+				&nbsp;
+				<img id="insertProductSpinner" src="~/Content/images/spinner.gif" style="display: none;" />
+				<span id="insertProductAckMsg" style="font-weight: bold; color: red;">@Model.insertRecordAckMsg</span>
+			</div>
+			<br />
+			<table id="myTable" style="width: 100%;">
+				<thead>
+					<tr>
+						@*set up and down image (150918)*@
+						<td style="width:50px;">#</td>
+						<td style="width:60px;">
+							<a href="" id="productID">ID</a>
+							@if (Model.currentSortBy == "productID")
+							{
+								<img src='/Content/images/@(Model.currentSortOrder == "ascending" ? "up":"down").png' />
+							}
+						</td>
+						<td style="width:150px;">
+							<a href="" id="name">Name</a>
+							@if (Model.currentSortBy == "name")
+							{
+								<img src='/Content/images/@(Model.currentSortOrder == "ascending" ? "up":"down").png' />
+							}
+						</td>
+						<td>
+							<a href="" id="description">Description</a>
+							@if (Model.currentSortBy == "description")
+							{
+								<img src='/Content/images/@(Model.currentSortOrder == "ascending" ? "up":"down").png' />
+							}
+						</td>
+						<td style="width:100px;">
+							<a href="" id="category">Category</a>
+							@if (Model.currentSortBy == "category")
+							{
+								<img src='/Content/images/@(Model.currentSortOrder == "ascending" ? "up":"down").png' />
+							}
+						</td>
+						<td style="width:100px;">
+							<a href="" id="price">Price</a>
+							@if (Model.currentSortBy == "price")
+							{
+								<img src='/Content/images/@(Model.currentSortOrder == "ascending" ? "up":"down").png' />
+							}
+						</td>
+						<td style="width:50px;">Edit</td>
+						<td style="width:25px;"></td>
+					</tr>
+				</thead>
+				<tbody>
+					@{
+						int row = ((Model.currentPage - 1) * Model.currentPageSize) + 1;
+						if (Model.Products != null)
 						{
-							<img src='/Content/images/@(Model.currentSortOrder == "ascending" ? "up":"down").png' />
-						}
-					</td>
-					<td style="width:150px;">
-						<a href="" id="name">Name</a>
-						@if (Model.currentSortBy == "name")
-						{
-							<img src='/Content/images/@(Model.currentSortOrder == "ascending" ? "up":"down").png' />
-						}
-					</td>
-					<td>
-						<a href="" id="description">Description</a>
-						@if (Model.currentSortBy == "description")
-						{
-							<img src='/Content/images/@(Model.currentSortOrder == "ascending" ? "up":"down").png' />
-						}
-					</td>
-					<td style="width:100px;">
-						<a href="" id="category">Category</a>
-						@if (Model.currentSortBy == "category")
-						{
-							<img src='/Content/images/@(Model.currentSortOrder == "ascending" ? "up":"down").png' />
-						}
-					</td>
-					<td style="width:100px;">
-						<a href="" id="price">Price</a>
-						@if (Model.currentSortBy == "price")
-						{
-							<img src='/Content/images/@(Model.currentSortOrder == "ascending" ? "up":"down").png' />
-						}
-					</td>
-					<td style="width:50px;">Edit</td>
-					<td style="width:25px;"></td>
-				</tr>
-			</thead>
-			<tbody>
-				@{
-					int row = ((Model.currentPage - 1) * Model.currentPageSize) + 1;
-					if (Model.Products != null)
-					{
-						foreach (LanguageFeatures.DataModels.Product product in Model.Products)
-						{
-							<tr style="@(product.ProductID==Model.insertedRowID? "background-color: yellow;":"")">
-								<td>@row</td>
-								<td>@product.ProductID</td>
-								<td>@product.Name</td>
-								<td>@product.Description</td>
-								<td>@product.Category</td>
-								<td>@product.Price</td>
-								<td><a class="updateRecord">edit</a></td>
-								<td><a class="expandDetails"><img src="/Content/images/expand.gif" /></a></td>
-							</tr>
+							foreach (LanguageFeatures.DataModels.Product product in Model.Products)
+							{
+								<tr style="@(product.ProductID==Model.insertedRowID? "background-color: yellow;":"")">
+									<td>@row</td>
+									<td>@product.ProductID</td>
+									<td>@product.Name</td>
+									<td>@product.Description</td>
+									<td>@product.Category</td>
+									<td>@product.Price</td>
+									<td><a class="updateRecord">edit</a></td>
+									<td><a class="expandDetails"><img src="/Content/images/expand.gif" /></a></td>
+								</tr>
 
-							row++;
+								row++;
+							}
 						}
 					}
-				}
-			</tbody>
-			@*<tr style="height: 10px"></tr>
-				<tr id="totalPrice">
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td class="tdBorderTop">Total:</td>
-					<td class="tdBorderTop">@Model.totalPrices</td>
-				</tr>*@
-		</table>
-		<br />
-		<span id="numOfProducts" style="font-weight:bold;">Total Number of Products: @Model.numOfProducts</span>
-		<p>
-			<input type="button" value="export to excel" onclick="return OnExportToExcelClick();" />
-		</p>
+				</tbody>
+				@*<tr style="height: 10px"></tr>
+					<tr id="totalPrice">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td class="tdBorderTop">Total:</td>
+						<td class="tdBorderTop">@Model.totalPrices</td>
+					</tr>*@
+			</table>
+			<br />
+			<span id="numOfProducts" style="font-weight:bold;">Total Number of Products: @Model.numOfProducts</span>
+			<p>
+				<input type="button" value="export to excel" onclick="return OnExportToExcelClick();" />
+			</p>
 
-
-	</div>
+		</div>
 </form>
 <script type="text/javascript">
 	var currentRow;
@@ -188,15 +187,6 @@
 	var currentPrice;
 	var currentRowForDetails;
 	var currentProductIDForDetails;
-	function OnExportToExcelClick() {
-		$.ajax({
-			url: "/Home/ExportToExcel",
-			method: "POST",
-			complete: function () { },
-			success: function () { }
-		})
-	}
-
 	function onCrossClick() {
 		currentRow.find('td:nth-child(2)').html(currentProductID);
 		currentRow.find('td:nth-child(3)').html(currentName);
@@ -236,6 +226,9 @@
 			}
 		})
 	}
+	function OnExportToExcelClick() {
+		$('#formProductList').submit();
+	}
 	$(function () {
 		//function isValidPriceKey(event) {
 		//	var x = event.which || event.keyCode;
@@ -247,6 +240,16 @@
 		//$("#accordion").accordion({
 		//	collapsible: true
 		//});
+
+		$('form.formProductList').click(function (e) {
+			$.fileDownload('ExportToExcel', {
+				successCallback: function (url) {
+				},
+				failCallback: function (html, url) {
+				}
+			});
+			e.preventDefault(); //otherwise a normal form submit would occur
+		});
 
 		$('#Price').keyup(function () {
 			var $th = $(this);

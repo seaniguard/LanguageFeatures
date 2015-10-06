@@ -1,4 +1,5 @@
-﻿using LanguageFeatures.BLL;
+﻿using iGuardPayroll_WebRole;
+using LanguageFeatures.BLL;
 using LanguageFeatures.DAL;
 using LanguageFeatures.DataModels;
 using LanguageFeatures.Models;
@@ -14,6 +15,7 @@ namespace LanguageFeatures.Controllers
 	public class HomeController : Controller
 	{
 		HomeServices services = null;
+		private const string FILE_DOWNLOAD_COOKIE_NAME = "fileDownload";
 
 		public HomeController()
 		{
@@ -69,6 +71,8 @@ namespace LanguageFeatures.Controllers
 		[HttpPost]
 		public ActionResult Index(ShoppingCartModels inputModel)
 		{
+			if (Request.Cookies[FILE_DOWNLOAD_COOKIE_NAME] != null)	Response.Cookies[FILE_DOWNLOAD_COOKIE_NAME].Expires = DateTime.Now.AddYears(-1);
+
 			ShoppingCartModels model = services.GetShoppingCartModel(inputModel, Request.Cookies, null);
 
 			// set cookies (150914)
@@ -164,6 +168,19 @@ namespace LanguageFeatures.Controllers
 			ProductDetailsModels model = services.GetProductDetails(productID);
 
 			return PartialView("ProductDetails",model);
+		}
+
+		[FileDownload]
+		public ActionResult ExportToExcel()
+		{
+			string contentType = "application/vnd.ms-excel";
+			string s = "Hello World!";
+			byte[] data = System.Text.Encoding.ASCII.GetBytes(s);
+
+			contentType = "text/plain";
+			Response.SetCookie(new HttpCookie(FILE_DOWNLOAD_COOKIE_NAME, "true") { Path = "/" });
+
+			return File(data, contentType, "hello.txt");
 		}
 	}
 }

@@ -194,6 +194,7 @@
     <Compile Include="DataModels\Product.cs">
       <DependentUpon>InventoryModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="FileDownloadAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -247,6 +248,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-latest.js" />
+    <Content Include="Scripts\jquery.fileDownload.js" />
     <Content Include="Scripts\jquery.metadata.js" />
     <Content Include="Scripts\jquery.tablesorter.js" />
     <Content Include="Scripts\jquery.tablesorter.min.js" />

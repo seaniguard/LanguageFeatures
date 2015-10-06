@@ -47,7 +47,16 @@ namespace LanguageFeatures.DAL
 					else query = query.OrderByDescending(x => x.Price);
 				}
 
-				n = query.Skip(startRowIndex).Take(maximumRows).ToList();
+				// debug
+				// n = query.Skip(startRowIndex).Take(maximumRows).ToList();
+				Product newProduct = new Product();
+				newProduct.ProductID = "BB01";
+				newProduct.Name = "Hello";
+				newProduct.Description = "Hello World!";
+				newProduct.Category = "MyCategory";
+				newProduct.Price = 123;
+				n = new List<Product>();
+				n.Add(newProduct);
 
 				HttpRuntime.Cache.Insert(cacheKey, n, null, System.Web.Caching.Cache.NoAbsoluteExpiration, TimeSpan.FromHours(1));
 			}
@@ -57,10 +66,13 @@ namespace LanguageFeatures.DAL
 
 		public int GetProductCountByName(string nameBeginWidth)
 		{
-			int n;
+			int n = 1;
 
+			// debug
+			/*
 			if (nameBeginWidth == "all") n = ctx.Products.Count();
 			else n = ctx.Products.Where(x => x.Name.StartsWith(nameBeginWidth)).Count();
+			*/
 
 			return n;
 		}
