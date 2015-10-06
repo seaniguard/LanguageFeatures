@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MyDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'Application001.dbo.Product' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="Name" />
+      <PropertyRef Name="Description" />
+      <PropertyRef Name="Category" />
+      <PropertyRef Name="Price" />
+    </Key>
+    <Property Name="ID" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Category" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Price" Type="money" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="MyDataModelStoreContainer">
+    <EntitySet Name="Product" EntityType="Self.Product" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Product].[ID] AS [ID], 
+    [Product].[Name] AS [Name], 
+    [Product].[Description] AS [Description], 
+    [Product].[Category] AS [Category], 
+    [Product].[Price] AS [Price]
+    FROM [dbo].[Product] AS [Product]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>
