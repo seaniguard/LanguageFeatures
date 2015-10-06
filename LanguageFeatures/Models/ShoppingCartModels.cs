@@ -7,6 +7,7 @@ namespace LanguageFeatures.Models
 {
 	public class ShoppingCartModels
 	{
+		public string abc { get; set; }
 		public string currentSortBy { get; set; }
 		public string currentSortOrder { get; set; }
 		public string currentBeginWith { get; set; }
