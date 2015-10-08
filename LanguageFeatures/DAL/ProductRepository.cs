@@ -48,15 +48,15 @@ namespace LanguageFeatures.DAL
 				}
 
 				// debug
-				// n = query.Skip(startRowIndex).Take(maximumRows).ToList();
-				Product newProduct = new Product();
-				newProduct.ProductID = "BB01";
-				newProduct.Name = "Hello";
-				newProduct.Description = "Hello World!";
-				newProduct.Category = "MyCategory";
-				newProduct.Price = 123;
-				n = new List<Product>();
-				n.Add(newProduct);
+				n = query.Skip(startRowIndex).Take(maximumRows).ToList();
+				//Product newProduct = new Product();
+				//newProduct.ProductID = "BB01";
+				//newProduct.Name = "Hello";
+				//newProduct.Description = "Hello World!";
+				//newProduct.Category = "MyCategory";
+				//newProduct.Price = 123;
+				//n = new List<Product>();
+				//n.Add(newProduct);
 
 				HttpRuntime.Cache.Insert(cacheKey, n, null, System.Web.Caching.Cache.NoAbsoluteExpiration, TimeSpan.FromHours(1));
 			}

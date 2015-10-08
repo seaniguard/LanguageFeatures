@@ -71,7 +71,7 @@ namespace LanguageFeatures.Controllers
 		[HttpPost]
 		public ActionResult Index(ShoppingCartModels inputModel)
 		{
-			if (Request.Cookies[FILE_DOWNLOAD_COOKIE_NAME] != null)	Response.Cookies[FILE_DOWNLOAD_COOKIE_NAME].Expires = DateTime.Now.AddYears(-1);
+			if (Request.Cookies[FILE_DOWNLOAD_COOKIE_NAME] != null) Response.Cookies[FILE_DOWNLOAD_COOKIE_NAME].Expires = DateTime.Now.AddYears(-1);
 
 			ShoppingCartModels model = services.GetShoppingCartModel(inputModel, Request.Cookies, null);
 
@@ -167,7 +167,7 @@ namespace LanguageFeatures.Controllers
 		{
 			ProductDetailsModels model = services.GetProductDetails(productID);
 
-			return PartialView("ProductDetails",model);
+			return PartialView("ProductDetails", model);
 		}
 
 		[FileDownload]
@@ -177,10 +177,10 @@ namespace LanguageFeatures.Controllers
 			string s = "Hello World!";
 			byte[] data = System.Text.Encoding.ASCII.GetBytes(s);
 
-			contentType = "text/plain";
+			contentType = "text/csv";
 			Response.SetCookie(new HttpCookie(FILE_DOWNLOAD_COOKIE_NAME, "true") { Path = "/" });
 
-			return File(data, contentType, "hello.txt");
+			return File(data, contentType, "hello.csv");
 		}
 	}
 }
